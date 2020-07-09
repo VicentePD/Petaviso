@@ -1,0 +1,609 @@
+timestamp: 2020-05-08T22:30:48.127184
+CREATE TABLE "auth_user"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "first_name" CHAR(128),
+    "last_name" CHAR(128),
+    "email" CHAR(512),
+    "password" CHAR(512),
+    "registration_key" CHAR(512),
+    "reset_password_key" CHAR(512),
+    "registration_id" CHAR(512)
+);
+success!
+timestamp: 2020-05-08T22:30:48.436840
+CREATE TABLE "auth_group"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "role" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2020-05-08T22:30:48.526743
+CREATE TABLE "auth_membership"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-05-08T22:30:48.622487
+CREATE TABLE "auth_permission"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  ,
+    "name" CHAR(512),
+    "table_name" CHAR(512),
+    "record_id" INTEGER
+);
+success!
+timestamp: 2020-05-08T22:30:48.695633
+CREATE TABLE "auth_event"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "time_stamp" TIMESTAMP,
+    "client_ip" CHAR(512),
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "origin" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2020-05-08T22:30:48.793989
+CREATE TABLE "auth_cas"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "created_on" TIMESTAMP,
+    "service" CHAR(512),
+    "ticket" CHAR(512),
+    "renew" CHAR(1)
+);
+success!
+timestamp: 2020-05-08T22:30:48.877893
+CREATE TABLE "pets"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nome" CHAR(512),
+    "id_usr" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "data_nascimento" DATE,
+    "tipo" CHAR(512),
+    "raca" CHAR(512),
+    "img" CHAR(512),
+    "dt_atualizacao" TIMESTAMP
+);
+success!
+timestamp: 2020-05-08T22:30:48.965313
+CREATE TABLE "plugin_thumbnails"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "row_id" INTEGER,
+    "table_name" CHAR(512),
+    "field_name" CHAR(512),
+    "image_thumbnail" CHAR(512)
+);
+success!
+timestamp: 2020-05-08T22:32:01.496709
+CREATE TABLE "avisos"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nome_controle" CHAR(512),
+    "duracao" INTEGER,
+    "dt_inicio_controle" DATE,
+    "dt_fim_controle" DATE,
+    "qtd_aviso" INTEGER,
+    "qtd_dias_primeiro_aviso" INTEGER,
+    "id_pet" INTEGER REFERENCES "pets" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-05-08T22:32:25.310470
+CREATE TABLE "pesos"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "dt_medicao" DATE,
+    "peso" DOUBLE,
+    "id_pet" INTEGER REFERENCES "pets" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-05-14T14:19:34.305897
+CREATE TABLE "scheduler_task"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "application_name" CHAR(512),
+    "task_name" CHAR(512),
+    "group_name" CHAR(512),
+    "status" CHAR(512),
+    "broadcast" CHAR(1),
+    "function_name" CHAR(512),
+    "uuid" CHAR(255) UNIQUE,
+    "args" TEXT,
+    "vars" TEXT,
+    "enabled" CHAR(1),
+    "start_time" TIMESTAMP,
+    "next_run_time" TIMESTAMP,
+    "stop_time" TIMESTAMP,
+    "repeats" INTEGER,
+    "retry_failed" INTEGER,
+    "period" INTEGER,
+    "prevent_drift" CHAR(1),
+    "cronline" CHAR(512),
+    "timeout" INTEGER,
+    "sync_output" INTEGER,
+    "times_run" INTEGER,
+    "times_failed" INTEGER,
+    "last_run_time" TIMESTAMP,
+    "assigned_worker_name" CHAR(512)
+);
+success!
+timestamp: 2020-05-14T14:19:34.495975
+CREATE TABLE "scheduler_run"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "task_id" INTEGER REFERENCES "scheduler_task" ("id") ON DELETE CASCADE  ,
+    "status" CHAR(512),
+    "start_time" TIMESTAMP,
+    "stop_time" TIMESTAMP,
+    "run_output" TEXT,
+    "run_result" TEXT,
+    "traceback" TEXT,
+    "worker_name" CHAR(512)
+);
+success!
+timestamp: 2020-05-14T14:19:34.615842
+CREATE TABLE "scheduler_worker"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "worker_name" CHAR(255) UNIQUE,
+    "first_heartbeat" TIMESTAMP,
+    "last_heartbeat" TIMESTAMP,
+    "status" CHAR(512),
+    "is_ticker" CHAR(1),
+    "group_names" TEXT,
+    "worker_stats" TEXT
+);
+success!
+timestamp: 2020-05-14T14:19:34.796010
+CREATE TABLE "scheduler_task_deps"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "job_name" CHAR(512),
+    "task_parent" INTEGER,
+    "task_child" INTEGER REFERENCES "scheduler_task" ("id") ON DELETE CASCADE  ,
+    "can_visit" CHAR(1)
+);
+success!
+timestamp: 2020-05-17T01:01:47.849591
+ALTER TABLE "avisos" ADD "status" CHAR(1);
+success!
+timestamp: 2020-05-17T01:01:47.999524
+CREATE TABLE "avisos_enviados"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "id_controle" INTEGER REFERENCES "avisos" ("id") ON DELETE CASCADE  ,
+    "data_envio" DATE,
+    "status" CHAR(512)
+);
+success!
+timestamp: 2020-05-24T19:31:26.960680
+CREATE TABLE "avisos"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nome_controle" CHAR(512),
+    "duracao" INTEGER,
+    "dt_inicio_controle" DATE,
+    "dt_fim_controle" DATE,
+    "qtd_aviso" INTEGER,
+    "qtd_dias_primeiro_aviso" INTEGER,
+    "id_pet" INTEGER REFERENCES "pets" ("id") ON DELETE CASCADE  ,
+    "status" CHAR(1)
+);
+success!
+success!
+timestamp: 2020-06-26T23:07:21.684397
+ALTER TABLE "avisos_enviados" ADD "id_aviso" INTEGER REFERENCES "avisos" ("id") ON DELETE CASCADE  ;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2020-06-26T23:29:19.049190
+ALTER TABLE "avisos_enviados" ADD "id_avisos" INTEGER REFERENCES "avisos" ("id") ON DELETE CASCADE  ;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2020-06-27T21:47:36.713917
+ALTER TABLE "avisos" ADD "texto" TEXT;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!

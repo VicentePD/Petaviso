@@ -1,0 +1,23 @@
+{{extend 'layout.html'}}
+
+<h1>Cadastrar Aviso </h1>
+{{=form}}
+
+<script>
+document.getElementById("no_table_duracao").onchange = function() {Calcula_termino()};
+document.getElementById("no_table_dt_inicio_controle").onchange = function() {Calcula_termino()};
+document.getElementById("no_table_dt_fim_controle").onchange = function() {Calcula_qtd_dias()};
+function Calcula_termino() {
+  var dtinicio= document.getElementById("no_table_dt_inicio_controle") ;
+  //x.value = 1
+
+  document.getElementById("no_table_dt_fim_controle").value = adiciona_dias(document.getElementById("no_table_duracao").value, dtinicio.value);
+}
+function Calcula_qtd_dias() {
+  var dtinicio= document.getElementById("no_table_dt_inicio_controle") ;
+  var dtfim= document.getElementById("no_table_dt_fim_controle") ;
+  //x.value = 1
+
+  document.getElementById("no_table_duracao").value = calcDias( dtinicio.value,dtfim.value);
+}
+</script>
