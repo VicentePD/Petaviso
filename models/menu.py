@@ -35,7 +35,7 @@ if not configuration.get('app.production'):
 if configuration.get('app.informacao'):
     response.menu_inf = [
          ('Informações', False, '#', [
-                ( (T('Contato'), False, URL('contato'))),
-                ( (T('Sobre'), False, URL('cadastrar_aviso')))
+                ( (T('Contato'), False, URL(c='sobre',f='contato')))#,
+                #( (T('Sobre'), False, URL('cadastrar_aviso')))
             ])
     ]

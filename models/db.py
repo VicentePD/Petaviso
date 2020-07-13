@@ -200,7 +200,7 @@ Pesos = db.define_table('pesos',
 )
 Pesos = (db.pets.id==db.pesos.id_pet)&(db.auth_user.id==db.pets.id_usr)
 Topico = db.define_table('topicos',
-    Field('titulo', 'text', label='Título'),
+    Field('titulo', 'string', label='Título'),
     Field('dt_postagem', 'date', label='Data da Postagem',default=request.now),
     Field('texto', 'text', label='Texto'),
     Field('id_usr', 'reference auth_user', label='Autor', writable = False)

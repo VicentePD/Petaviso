@@ -607,3 +607,100 @@ success!
 success!
 success!
 success!
+success!
+success!
+timestamp: 2020-07-12T21:09:36.444132
+CREATE TABLE "topicos"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "titulo" TEXT,
+    "dt_postagem" DATE,
+    "texto" TEXT,
+    "id_usr" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-07-12T21:09:36.787492
+CREATE TABLE "comentarios"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "id_topico" INTEGER REFERENCES "topicos" ("id") ON DELETE CASCADE  ,
+    "dt_postagem" DATE,
+    "texto" TEXT,
+    "id_usr" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
